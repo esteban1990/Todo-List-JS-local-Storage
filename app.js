@@ -16,7 +16,17 @@ loadedEventsListeners();
 function loadedEventsListeners(){
 
     formulario.addEventListener("submit",agregarTweet);
-}
+
+   //Cuando el documento esta listo
+    document.addEventListener("DOMContentLoaded", () => {
+        tweets = JSON.parse(localStorage.getItem("tweets")) || []; //obtener los tweets del local storage o un array vacio si no hay nada
+        console.log(tweets);
+        crearHtml(); //crear el html
+    })
+
+};
+
+
 
 
 
@@ -76,6 +86,8 @@ function crearHtml() {
 
     limpiarHtml();
 
+    if(tweetsArray.length > 0){
+
     tweetsArray.forEach((t) => {
         //agregar boton para cada elemento li
         const btnEliminar = document.createElement("a")
@@ -100,8 +112,16 @@ function crearHtml() {
 
         
     })
+}
+    sincronizarStorage(); //sincronizar el local storage con el array de tweets
 
 }
+
+
+function sincronizarStorage(){
+    localStorage.setItem("tweets", JSON.stringify(tweets)); //convertir el array de tweets a un string y guardarlo en el local storage
+}   
+
 
 function borrarTweet(id){
 
